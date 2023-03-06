@@ -1,11 +1,8 @@
-from models.posts import metadata, test_table
-from sqlalchemy import create_engine
+from models.posts import Test, engine
+from sqlalchemy.orm import sessionmaker
 
-engine = create_engine('sqlite:///../sql_app.db', echo=True)
-
-ins = test_table.insert().values(name='test')
-
-conn = engine.connect()
-result = conn.execute(ins)
-
-# conn.commit()
+SessionLocal = sessionmaker(autoflush=False, bind=engine)
+db = SessionLocal()
+test = Test(name='smth1')
+db.add(test)
+db.commit()

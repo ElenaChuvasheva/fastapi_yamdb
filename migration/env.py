@@ -1,11 +1,7 @@
-import os
-import sys
 from logging.config import fileConfig
 
 from alembic import context
 from sqlalchemy import engine_from_config, pool
-
-sys.path.append(os.getcwd())
 
 from app.models import posts
 
@@ -22,7 +18,7 @@ if config.config_file_name is not None:
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-target_metadata = [posts.metadata,]
+target_metadata = [posts.Base.metadata,]
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
@@ -47,7 +43,7 @@ def run_migrations_offline() -> None:
         url=url,
         target_metadata=target_metadata,
         literal_binds=True,
-        dialect_opts={"paramstyle": "named"}
+        dialect_opts={"paramstyle": "named"},
     )
 
     with context.begin_transaction():

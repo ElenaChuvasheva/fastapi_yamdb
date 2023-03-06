@@ -1,10 +1,12 @@
-import sqlalchemy
+from sqlalchemy import Column, Integer, String
+from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
+from sqlalchemy.ext.declarative import declarative_base
 
-metadata = sqlalchemy.MetaData()
+Base = declarative_base()
 
-test_table = sqlalchemy.Table(
-    'test',
-    metadata,
-    sqlalchemy.Column('id', sqlalchemy.Integer, primary_key=True),
-    sqlalchemy.Column('name', sqlalchemy.String(100), unique=True),
-)
+engine = create_async_engine('sqlite+aiosqlite:///./sql.db', echo=True)
+
+class Test(Base):
+    __tablename__ = 'test'
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String(100), unique=True)
