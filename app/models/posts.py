@@ -6,8 +6,8 @@ Base = declarative_base()
 class Category(Base):
     __tablename__ = 'Category'
     id = Column(Integer, primary_key=True, index=True)
-    name = Column(String(100), unique=True, nullable=False)
-    # повесить проверку на слаг!
+    name = Column(String(100), unique=True, nullable=False, doc='Catname')
+    # повесить проверку на слаг, втч в Genre!!
     slug = Column(String(100), unique=True, nullable=False)
 
 
