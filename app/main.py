@@ -1,9 +1,11 @@
 import uvicorn
 from fastapi import FastAPI
-from sqladmin import Admin, ModelView
+from sqladmin import Admin
 from sqlalchemy import select
 
-from app.models.posts import Test, database, engine
+from app.admin import CategoryAdmin, GenreAdmin
+from app.models.dbase import database, engine
+from app.models.posts import Genre
 from app.routers import posts
 
 app = FastAPI()
@@ -18,6 +20,11 @@ async def shutdown():
 
 app.include_router(posts.router)
 
+admin = Admin(app, engine)
+admin.add_view(CategoryAdmin)
+admin.add_view(GenreAdmin)
+
+
 @app.get("/")
 async def read_root():
 #    query = (
@@ -29,16 +36,9 @@ async def read_root():
 #        )
 #        .select_from(Test)
 #    )
-    query = select(Test)
+    query = select(Genre)
     return await database.fetch_all(query)
 
-admin = Admin(app, engine)
-
-class TestAdmin(ModelView, model=Test):
-    column_list = [Test.id, Test.name]
-
-
-admin.add_view(TestAdmin)
 
 if __name__ == '__main__':
     uvicorn.run(app, host='0.0.0.0', port=8000)

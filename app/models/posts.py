@@ -1,16 +1,19 @@
-import databases
 from sqlalchemy import Column, Integer, String
-from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()
 
-DATABASE_URL = 'sqlite+aiosqlite:///./sql.db'
-
-engine = create_async_engine(DATABASE_URL, future=True, echo=True)
-database = databases.Database(DATABASE_URL)
-
-class Test(Base):
-    __tablename__ = 'test'
+class Category(Base):
+    __tablename__ = 'Category'
     id = Column(Integer, primary_key=True, index=True)
-    name = Column(String(100), unique=True)
+    name = Column(String(100), unique=True, nullable=False)
+    # повесить проверку на слаг!
+    slug = Column(String(100), unique=True, nullable=False)
+
+
+class Genre(Base):
+    __tablename__ = 'Genre'
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String(100), unique=True, nullable=False)
+    # повесить проверку на слаг!
+    slug = Column(String(100), unique=True, nullable=False)
