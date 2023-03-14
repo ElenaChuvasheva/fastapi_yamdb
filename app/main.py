@@ -3,9 +3,9 @@ from fastapi import FastAPI
 from sqladmin import Admin
 from sqlalchemy import select
 
-from app.admin import CategoryAdmin, GenreAdmin
+from app.admin import CategoryAdmin, GenreAdmin, UserAdmin
 from app.models.dbase import database, engine
-from app.models.posts import Genre
+from app.models.users import User
 from app.routers import posts
 
 app = FastAPI()
@@ -23,6 +23,7 @@ app.include_router(posts.router)
 admin = Admin(app, engine)
 admin.add_view(CategoryAdmin)
 admin.add_view(GenreAdmin)
+admin.add_view(UserAdmin)
 
 
 @app.get("/")
@@ -36,7 +37,7 @@ async def read_root():
 #        )
 #        .select_from(Test)
 #    )
-    query = select(Genre)
+    query = select(User)
     return await database.fetch_all(query)
 
 

@@ -1,11 +1,6 @@
-from functools import partial
-
 from sqlalchemy import Column, Integer, String
-from sqlalchemy.ext.declarative import declarative_base
 
-Base = declarative_base()
-
-ReqColumn = partial(Column, nullable=False)
+from app.models.dbase import Base, ReqColumn
 
 
 class Category(Base):
